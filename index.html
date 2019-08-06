@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PreviewImage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <style>
+        body{
+          width: 375px;
+          max-width: 375px;
+          text-align: center;
+        }
+        .imgs-box img {
+          width: 50%;
+          margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h3>林五&罗五妹婚纱照</h3>
+    <div class="imgs-box" id="img_box">
+        <img src="image/4K9A2586.JPG" alt="">
+		<img src="image/4K9A2589.JPG" alt="">
+		<img src="image/4K9A2606.JPG" alt="">
+		<img src="image/4K9A2612.JPG" alt="">
+		<img src="image/4K9A2616.JPG" alt="">
+		<img src="image/4K9A2621.JPG" alt="">
+		<img src="image/4K9A2622.JPG" alt="">
+		<img src="image/4K9A2627.JPG" alt="">
+		<img src="image/4K9A2648.JPG" alt="">
+		<img src="image/4K9A2653.JPG" alt="">
+		<img src="image/4K9A2660.JPG" alt="">
+		<img src="image/4K9A2688.JPG" alt="">
+		<img src="image/4K9A2694.JPG" alt="">
+		<img src="image/4K9A2706.JPG" alt="">
+		<img src="image/4K9A2727.JPG" alt="">
+		<img src="image/4K9A2741.JPG" alt="">
+		<img src="image/4K9A2782.JPG" alt="">
+		<img src="image/4K9A2792.JPG" alt="">
+		<img src="image/4K9A2805.JPG" alt="">
+		<img src="image/4K9A2846.JPG" alt="">
+		<img src="image/4K9A2857.JPG" alt="">
+		<img src="image/4K9A2864.JPG" alt="">
+		<img src="image/4K9A2872.JPG" alt="">
+		<img src="image/4K9A2876.JPG" alt="">
+		<img src="image/4K9A2889.JPG" alt="">
+		<img src="image/4K9A2907.JPG" alt="">
+		<img src="image/4K9A2911.JPG" alt="">
+		<img src="image/4K9A2918.JPG" alt="">
+		<img src="image/4K9A2922.JPG" alt="">
+		<img src="image/4K9A2936.JPG" alt="">
+		<img src="image/4K9A2942.JPG" alt="">
+		<img src="image/4K9A2962.JPG" alt="">
+		<img src="image/4K9A2973.JPG" alt="">
+		<img src="image/4K9A2978.JPG" alt="">
+		<img src="image/4K9A2983.JPG" alt="">
+		<img src="image/4K9A2988.JPG" alt="">
+		<img src="image/4K9A2996.JPG" alt="">
+		<img src="image/4K9A3004.JPG" alt="">
+		<img src="image/4K9A3026.JPG" alt="">
+		<img src="image/4K9A3071.JPG" alt="">
+		<img src="image/4K9A3132.JPG" alt="">
+		<img src="image/4K9A3141.JPG" alt="">
+		<img src="image/4K9A3149.JPG" alt="">
+		<img src="image/4K9A3152.JPG" alt="">
+		<img src="image/4K9A3158.JPG" alt="">
+		<img src="image/4K9A3172.JPG" alt="">
+		<img src="image/4K9A3179.JPG" alt="">
+		<img src="image/4K9A3188.JPG" alt="">
+		<img src="image/4K9A3191.JPG" alt="">
+		<img src="image/4K9A3197.JPG" alt="">
+		<img src="image/4K9A3214.JPG" alt="">
+		<img src="image/4K9A3226.JPG" alt="">
+    </div>
+</body>
+<script src="dist/md5.js"></script>
+<!-- <script src="src/previewImage.js"></script> -->
+<script src="dist/previewImage.min.js"></script>
+<script>
+    var $ = {};
+    /**
+     * get multiple elements
+     * @public
+     */
+    $.all = function(selector, contextElement) {
+      var nodeList,
+        list = [];
+      if (contextElement) {
+        nodeList = contextElement.querySelectorAll(selector);
+      } else {
+        nodeList = document.querySelectorAll(selector);
+      }
+      if (nodeList && nodeList.length > 0) {
+        list = Array.prototype.slice.call(nodeList);
+      }
+      return list;
+    }
+
+    /**
+     * delegate an event to a parent element
+     * @public
+     * @param  array     $el        parent element
+     * @param  string    eventType  name of the event
+     * @param  string    selector   target's selector
+     * @param  function  fn
+     */
+    $.delegate = function($el, eventType, selector, fn) {
+      if (!$el) { return; }
+      $el.addEventListener(eventType, function(e) {
+        var targets = $.all(selector, $el);
+        if (!targets) {
+          return;
+        }
+        // findTarget:
+        for (var i=0; i<targets.length; i++) {
+          var $node = e.target;
+          while ($node) {
+            if ($node == targets[i]) {
+              fn.call($node, e);
+              break; //findTarget;
+            }
+            $node = $node.parentNode;
+            if ($node == $el) {
+              break;
+            }
+          }
+        }
+      }, false);
+    };
+
+    var urls = [];
+    var imgs = $.all('img',$.all('#img_box')[0]);
+    imgs.forEach(function(v,i){
+        urls.push(v.src);
+    })
+    
+    $.delegate(document.querySelector('#img_box'), 'click','img',function(){
+        var current = this.src;
+        var obj = {
+            urls : urls,
+            current : current
+        };
+        previewImage.start(obj);
+    });
+    
+</script>
+</html>
